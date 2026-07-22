@@ -3,6 +3,7 @@
   "name": "Jira Quick Ticket",
   "version": "1.0.0",
   "description": "Cria tickets no Jira a partir da página atual: escolha o projeto e o tipo e receba o número do ticket na hora.",
+  "homepage_url": "https://github.com/dfg-dexterity/jirainsightextension",
   "action": {
     "default_title": "Criar ticket no Jira",
     "default_popup": "popup.html",

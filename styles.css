@@ -14,6 +14,11 @@
   box-sizing: border-box;
 }
 
+/* Os painéis (.view) usam display: flex, que venceria o atributo hidden. */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

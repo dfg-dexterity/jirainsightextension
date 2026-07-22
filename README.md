@@ -67,6 +67,30 @@ jirainsightextension/
 └── icons/               # PNGs gerados por icons/generate.mjs (node icons/generate.mjs)
 ```
 
+## Publicação na Chrome Web Store
+
+Material pronto em [`store/`](store/) (capturas 1280×800 e promo tile 440×280) e política de
+privacidade em [`PRIVACY.md`](PRIVACY.md) — a URL pública desse arquivo serve como
+"privacy policy URL" na ficha da loja.
+
+1. Gere o pacote (ZIP com o `manifest.json` na raiz, só os arquivos de runtime):
+
+   ```bash
+   zip -r jira-quick-ticket-v1.0.0.zip manifest.json popup.html popup.js \
+     options.html options.js jira.js styles.css \
+     icons/icon16.png icons/icon32.png icons/icon48.png icons/icon128.png
+   ```
+
+2. Crie a conta de desenvolvedor em <https://chrome.google.com/webstore/devconsole>
+   (taxa única de US$ 5) e use **+ Novo item** → envie o ZIP;
+3. Preencha a ficha (idioma pt-BR, categoria Produtividade), suba as capturas de `store/`,
+   informe a URL da política de privacidade, justifique as permissões e preencha as
+   práticas de privacidade (nenhum dado é coletado pelo desenvolvedor);
+4. Visibilidade: **Não listada** (instalável pelo link, fora da busca) é o ideal para uso
+   interno; **Pública** também é possível;
+5. Envie para revisão (algumas horas a poucos dias). Para atualizar: aumente `version`
+   no `manifest.json`, gere novo ZIP e reenvie.
+
 ## Limitações conhecidas
 
 - Projetos cujo tipo de ticket exige **campos obrigatórios extras** (além de resumo/descrição)
