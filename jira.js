@@ -129,6 +129,37 @@ export async function createIssue(settings, { projectId, issueTypeId, summary, d
   return jiraFetch(settings, '/rest/api/3/issue', { method: 'POST', body: JSON.stringify({ fields }) });
 }
 
+// Converte entradas amigáveis em duração do Jira: "2" → "2h", "1,5" → "1h 30m",
+// "1:30" → "1h 30m". Formatos que o Jira já aceita ("1h 30m", "45m", "1d") passam direto.
+export function normalizeTimeSpent(raw) {
+  const text = (raw || '').trim().toLowerCase();
+  if (!text) return null;
+  const decimal = text.match(/^(\d+)(?:[.,](\d+))?$/);
+  if (decimal) {
+    return formatDuration(parseInt(decimal[1], 10), decimal[2] ? Math.round(parseFloat(`0.${decimal[2]}`) * 60) : 0);
+  }
+  const clock = text.match(/^(\d+):(\d{1,2})$/);
+  if (clock) return formatDuration(parseInt(clock[1], 10), parseInt(clock[2], 10));
+  return text;
+}
+
+function formatDuration(hours, minutes) {
+  hours += Math.floor(minutes / 60);
+  minutes %= 60;
+  const parts = [];
+  if (hours) parts.push(`${hours}h`);
+  if (minutes) parts.push(`${minutes}m`);
+  return parts.length ? parts.join(' ') : null;
+}
+
+// Registra horas trabalhadas (worklog) no ticket.
+export async function addWorklog(settings, issueKey, timeSpent) {
+  return jiraFetch(settings, `/rest/api/3/issue/${issueKey}/worklog`, {
+    method: 'POST',
+    body: JSON.stringify({ timeSpent }),
+  });
+}
+
 export async function testConnection(settings) {
   return jiraFetch(settings, '/rest/api/3/myself');
 }

@@ -36,6 +36,9 @@
         <label for="description">Descrição</label>
         <textarea id="description" rows="6"></textarea>
 
+        <label for="time-spent">Apontar horas (opcional)</label>
+        <input id="time-spent" type="text" placeholder="ex.: 1h 30m • 45m • 2 • 1:30" autocomplete="off" />
+
         <div id="form-error" class="error" hidden></div>
 
         <div class="actions">
@@ -49,6 +52,7 @@
       <p class="success-label">Ticket criado!</p>
       <a id="ticket-link" class="ticket-key" target="_blank" rel="noreferrer" href="#"></a>
       <p id="ticket-summary" class="muted"></p>
+      <p id="worklog-status" class="muted" hidden></p>
       <div class="actions">
         <button id="btn-copy" class="ghost" type="button">Copiar chave</button>
         <button id="btn-again" class="primary" type="button">Criar outro</button>

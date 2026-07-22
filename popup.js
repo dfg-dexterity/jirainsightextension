@@ -1,5 +1,13 @@
 // Popup: captura a página atual, deixa escolher projeto/tipo e cria o ticket.
-import { getSettings, fetchProjects, fetchIssueTypes, createIssue, browseUrl } from './jira.js';
+import {
+  getSettings,
+  fetchProjects,
+  fetchIssueTypes,
+  createIssue,
+  browseUrl,
+  normalizeTimeSpent,
+  addWorklog,
+} from './jira.js';
 
 const $ = (id) => document.getElementById(id);
 const VIEWS = ['view-loading', 'view-setup', 'view-form', 'view-success'];
@@ -138,6 +146,8 @@ async function onCreate() {
     return;
   }
 
+  const timeSpent = normalizeTimeSpent($('time-spent').value);
+
   const btn = $('btn-create');
   btn.disabled = true;
   btn.textContent = 'Criando…';
@@ -154,6 +164,20 @@ async function onCreate() {
       lastIssueTypeByProject: { ...(prefs.lastIssueTypeByProject || {}), [projectId]: issueTypeId },
     };
     await chrome.storage.local.set({ prefs });
+
+    let worklogNote = '';
+    if (timeSpent) {
+      try {
+        await addWorklog(settings, issue.key, timeSpent);
+        worklogNote = `⏱ ${timeSpent} apontado no ticket`;
+      } catch (err) {
+        worklogNote = `⚠ Ticket criado, mas o apontamento de horas falhou: ${err.message}`;
+      }
+    }
+    const worklogBox = $('worklog-status');
+    worklogBox.textContent = worklogNote;
+    worklogBox.hidden = !worklogNote;
+
     const link = $('ticket-link');
     link.textContent = issue.key;
     link.href = browseUrl(settings, issue.key);
@@ -210,6 +234,7 @@ async function init() {
   $('btn-copy').addEventListener('click', copyTicketKey);
   $('btn-again').addEventListener('click', () => {
     hideError();
+    $('time-spent').value = ''; // horas valem para um ticket só
     showView('view-form');
   });
 
