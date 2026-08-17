@@ -91,3 +91,13 @@ Status: **em preparação** — pacote e materiais prontos no repositório.
 - **Modo do desenvolvedor** — opção de `chrome://extensions` que permite instalar extensões fora da Chrome Web Store ("Carregar sem compactação");
 - **TAD** — chave do projeto "ITPR | Tarefas Avulsas" no Jira, destino padrão dos tickets avulsos;
 - **Bookmarklet (solução anterior)** — favorito com JavaScript que enviava os dados a um webhook do Zapier; aposentado por esta extensão.
+
+---
+
+## Complemento: app para macOS (barra de menus) — experimental
+
+Além da extensão Chrome, o repositório traz um aplicativo de barra de menus para Mac (pasta `macos/`): em vez da página do navegador, ele captura o **aplicativo em primeiro plano, o título da janela ativa** e o texto selecionado (via permissão de Acessibilidade do macOS) e cria o ticket com o mesmo fluxo — projeto, tipo, apontamento de horas e número do ticket de volta, com token guardado no Keychain.
+
+- Compilar: `cd macos && ./make-app.sh` (requer apenas o Xcode Command Line Tools); o app gerado fica em `macos/dist/JiraQuickTicket.app`;
+- Primeira captura pede a permissão em **Ajustes do Sistema → Privacidade e Segurança → Acessibilidade**;
+- Instruções completas: [macos/README.md](https://github.com/dfg-dexterity/jirainsightextension/blob/main/macos/README.md).

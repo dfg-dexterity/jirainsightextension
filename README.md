@@ -70,6 +70,14 @@ jirainsightextension/
 └── icons/               # PNGs gerados por icons/generate.mjs (node icons/generate.mjs)
 ```
 
+## App para macOS (barra de menus)
+
+Em [`macos/`](macos/README.md) há a versão para Mac: em vez da página do navegador, ela captura
+o **aplicativo em primeiro plano e o título da janela ativa** (e o texto selecionado, via
+permissão de Acessibilidade) e cria o ticket com o mesmo fluxo — projeto, tipo, apontamento de
+horas e número do ticket de volta. Swift puro, sem dependências: `swift run` para testar ou
+`./make-app.sh` para gerar o `.app`; detalhes no README da pasta.
+
 ## Publicação na Chrome Web Store
 
 Material pronto em [`store/`](store/) (capturas 1280×800 e promo tile 440×280) e política de
